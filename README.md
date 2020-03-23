@@ -52,48 +52,58 @@ We would like to build a Lightning component that allows the user to create many
 The component would show all the existing accounts and allow the user to select for which accounts to create an opportunity.
 The account table would use pagination as there may be a lot of accounts in the system.
 The page would look like this:
+![image](https://user-images.githubusercontent.com/20809248/77335952-c896e480-6d1e-11ea-8db3-90fd86e8fab6.png)
+- Each page contains 5 accounts.
+- The amount, Closed date and stage are required and will be the same for all new opportunities
+- The new opportunities names would be “New auto opportunity create for “ + Account name.
+- If no accounts are selected show error message
+- Pagination buttons should be disabled if there is no next/previous page.
+- On creation show success message
+- Make sure if some of the opportunities cannot be created but others can to create the ones you can and show error message for each opportunity that couldn’t be created due to any DML errors.
+- The stage input should have all the available stages for opportunity
 
-## Approach
-•	A lightning component is created with all the necessary elements to take input values to create an opportunity.
-•	One input field is created to enter the opportunity amount Value. This is a required field and validation is done to enter only numeric values.
-•	A picklist field with all the stage names available for an opportunity.
-•	A date field to enter the close date which is required as well to create an opportunity.
-•	A table with all the accounts in the system with a checkbox to select the account for which an opportunity needs to be created. If the user fails to select an account, then a toast error message is displayed to the user.
-•	All the above mentioned fields are required to create an opportunity. When the Create opportunity button is clicked after entering all the required values, an opportunity is created for the selected account. 
-•	After successful creation of opportunity a toast success message is displayed to the user.
-•	Whenever the opportunity DML operation fails, that exception is handled from apex class to aura component. For example, if the close date field is missing(failed to use close date while creating opportunity object) while inserting an opportunity, the following error message will be displayed to the user.
-•	After submitting the opportunity record, the form is cleared.
+### Approach
+- A lightning component is created with all the necessary elements to take input values to create an opportunity.
+- One input field is created to enter the opportunity amount Value. This is a required field and validation is done to enter only numeric values.
+- A picklist field with all the stage names available for an opportunity.
+- A date field to enter the close date which is required as well to create an opportunity.
+- A table with all the accounts in the system with a checkbox to select the account for which an opportunity needs to be created. If the user fails to select an account, then a toast error message is displayed to the user.
+- All the above mentioned fields are required to create an opportunity. When the Create opportunity button is clicked after entering all the required values, an opportunity is created for the selected account. 
+- After successful creation of opportunity a toast success message is displayed to the user.
+- Whenever the opportunity DML operation fails, that exception is handled from apex class to aura component. For example, if the close date field is missing(failed to use close date while creating opportunity object) while inserting an opportunity, the following error message will be displayed to the user.
+- After submitting the opportunity record, the form is cleared.
 
-## Metadata created:
-•	APEX Classes
-  o	CreateOpportunitiesController
-•	Lightning Component
-  o	CreateOpportunities
-
-
-# TASK 4
-
-## Approach
-•	The approach here is to use a queueable apex class as a trigger handler. The advantage of using queueable apex class are:
-o	An id will be assigned to the job which can be used to track the job.
-o	Non primitive data types can be passed to the queueable apex class.
-o	One job can be chained to another job by starting a second job from the running job.
-•	When the Annual Revenue field is updated on the account, before trigger will be executed, which in turn calls the queueable apex class.
-•	This queueable class makes the REST API call out and gets the bitcoin value in USD.
-•	Then, the Annual Revenue in Bitcoin is updated.
-
-## Metadata created:
-•	Trigger
-o	AccountBitcoinRevenue
-•	APEX Classes
-o	AccountTriggerHandler
-•	Custom Field
-o	Annual_Revenue_in_Bitcoin__c on Account
+### Metadata created:
+- APEX Classes
+  - CreateOpportunitiesController
+- Lightning Component
+  - CreateOpportunities
 
 
+## TASK 4 Queueable Apex
+We would like to add a trigger code to calculate the Accounts annual revenue in bitcoin. Each account has a default “Annual Revenue” field. We would need to add a new “Annual Revenue in Bitcoin” field. Bitcoins should have 8 decimal places. When someone updates the account “Annual Revenue” we would need to do a callout to https://bitpay.com/api/rates/ Get the value of each bitcoin in USD and update the bitcoin field for the account.
 
- 
+### Approach
+- The approach here is to use a queueable apex class as a trigger handler. The advantage of using queueable apex class are:
+  - An id will be assigned to the job which can be used to track the job.
+  - Non primitive data types can be passed to the queueable apex class.
+  - One job can be chained to another job by starting a second job from the running job.
+- When the Annual Revenue field is updated on the account, before trigger will be executed, which in turn calls the queueable apex class.
+- This queueable class makes the REST API call out and gets the bitcoin value in USD.
+- Then, the Annual Revenue in Bitcoin is updated.
+
+### Metadata created:
+- Trigger
+  - AccountBitcoinRevenue
+- APEX Classes
+  - AccountTriggerHandler
+- Custom Field
+  - Annual_Revenue_in_Bitcoin__c on Account
+
+
 # TASK 5
+One of the common components we create is a simple and easy to use table which allows the user to search, filter and paginate the list. For example, if there are a lot of contacts under each account, users might want and easy way to be able to view all the contacts under and account, be able to sort the table by any column and paginate the table so that the user doesn’t have to scroll too much.
+The component would look like this:
 
 ## Approach
 •	Contacts for an account are displayed in a lightning data table. This table can be sorted on all the columns. If no contacts are there on an account, No contacts to display message is shown.

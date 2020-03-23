@@ -101,23 +101,25 @@ We would like to add a trigger code to calculate the Accounts annual revenue in 
   - Annual_Revenue_in_Bitcoin__c on Account
 
 
-# TASK 5
+## TASK 5
 One of the common components we create is a simple and easy to use table which allows the user to search, filter and paginate the list. For example, if there are a lot of contacts under each account, users might want and easy way to be able to view all the contacts under and account, be able to sort the table by any column and paginate the table so that the user doesn’t have to scroll too much.
 The component would look like this:
+![image](https://user-images.githubusercontent.com/20809248/77336614-b0739500-6d1f-11ea-822e-e92b6faff9cc.png)
 
-## Approach
-•	Contacts for an account are displayed in a lightning data table. This table can be sorted on all the columns. If no contacts are there on an account, No contacts to display message is shown.
-•	The table has 4 buttons for pagination purpose. First, previous, next and last buttons will be enabled/disabled depending on the contacts to show. If no contacts to show buttons will be disabled and vice versa.
-•	When the table is sorted on a column, corresponding arrow mark is shown on the column.
-•	User selects the number of contacts to display in the table using the Show picklist field. By default the value will be 5. If there are less than 5 contacts or no contacts, all the pagination buttons will be disabled. 
-•	When the page size changes, the current page will be changed to page 1. 	This does not apply when the sort happens.
-•	A textbox is provided on top of the table to search for contacts in the table. The text entered will be used in SOSL query with ALL FIELDS search criteria. Change the page to page 1 even now. If no contacts are fetched by SOSL, then instead of table, No contacts matching the search criteria is shown.
-•	Upon clicking the contact name, a new tab will be opened in the service console app to view the contact details.
 
-## Metadata created:
-•	APEX Classes
-o	DisplayContactTableInAccount
-•	Lightning Component
-o	ContactTableInAccountRecord.
+### Approach
+- Contacts for an account are displayed in a lightning data table. This table can be sorted on all the columns. If no contacts are there on an account, No contacts to display message is shown.
+- The table has 4 buttons for pagination purpose. First, previous, next and last buttons will be enabled/disabled depending on the contacts to show. If no contacts to show buttons will be disabled and vice versa.
+- When the table is sorted on a column, corresponding arrow mark is shown on the column.
+- User selects the number of contacts to display in the table using the Show picklist field. By default the value will be 5. If there are less than 5 contacts or no contacts, all the pagination buttons will be disabled. 
+- When the page size changes, the current page will be changed to page 1. 	This does not apply when the sort happens.
+- A textbox is provided on top of the table to search for contacts in the table. The text entered will be used in SOSL query with ALL FIELDS search criteria. Change the page to page 1 even now. If no contacts are fetched by SOSL, then instead of table, No contacts matching the search criteria is shown.
+- Upon clicking the contact name, a new tab will be opened in the service console app to view the contact details.
+
+### Metadata created:
+- APEX Classes
+  - DisplayContactTableInAccount
+- Lightning Component
+  - ContactTableInAccountRecord.
 
 

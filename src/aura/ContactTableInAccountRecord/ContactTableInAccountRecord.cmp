@@ -1,0 +1,71 @@
+<aura:component controller="DisplayContactTableInAccount" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+	<aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+	<!--aura attributes--> 
+    <aura:attribute name="contactColumns" type="List"/>
+    <aura:attribute name="contactData" type="Object"/>
+    <aura:attribute name="sortBy" type="String"/>
+    <aura:attribute name="sortDirection" type="String"/>
+    <aura:attribute name="startIndex" type="Integer" default="0"/>
+    <aura:attribute name="endIndex" type="Integer"/>
+    <aura:attribute name="tempContactData" type="Object"/>
+    <aura:attribute name="totalRecords" type="Integer"/>
+    <aura:attribute name="recordsToShow" type="Integer" default="5"/>
+    <aura:attribute name="searchString" type="String"/>
+    <aura:attribute name="contactRecordNotEmpty" type="Boolean"/>
+	<div class="slds-box slds-theme_default">
+        <div class="slds-media slds-media--center slds-no-space slds-grow">
+            <div class="slds-media__figure">
+                <lightning:icon iconName="standard:account" size="small" alternativeText="Indicates approval"/>
+            </div>
+            <div class="slds-media__body">
+                <h1 class="slds-page-header__title slds-m-right--small slds-truncate slds-align-middle" title="Accounts">Contacts</h1>
+            </div>
+            <ui:inputText aura:id="searchContacts" label="Search Contacts"
+                  class="slds-input inputClass"
+                  labelClass="slds-form-element__label"
+                  keyup="{!c.filterContactsToDisplay}" 
+                  updateOn="keyup"
+                  placeholder="Search..."
+                  value="{!v.searchString}"
+                  />
+        </div>
+    
+    <!--Lightning data table markup-->
+    <form class="slds-form--stacked">
+    <lightning:datatable aura:id="contactTable"
+                         keyField="Id"
+                         hideCheckboxColumn="true"
+                         columns="{!v.contactColumns}"
+                         data="{!v.tempContactData}"
+                         sortedBy="{!v.sortBy}"
+                         sortedDirection="{!v.sortDirection}"
+                         onsort="{!c.handleSort}"
+                      	/>
+     <div aura:id="noContacts" class="noContactClass slds-text-body_small" style="text-align: center;margin:25px">No contact under this account</div>
+     <div aura:id="noSearchContacts" class="noContactClass slds-text-body_small" style="text-align: center;margin:25px">No contacts matching the search criteria</div>
+     </form>
+     <div class="slds-m-around--x-small">
+         <aura:if isTrue="{!v.contactRecordNotEmpty}">
+      			Showing {!v.startIndex+1}-{!v.endIndex+1} out of {!v.totalRecords}&nbsp;&nbsp;
+             <aura:set attribute="else">
+             	Showing 0 contacts &nbsp;&nbsp;&nbsp;&nbsp;
+             </aura:set>
+  		</aura:if>
+         <lightning:button class="slds-button slds-button--neutral" label="&lt;&lt;First" aura:id="firstButton" onclick="{!c.navigateToFirst}"/>
+         <lightning:button class="slds-button slds-button--small slds-button--neutral" label="&lt;Previous" aura:id="prevButton" onclick="{!c.navigateToPrevious}"/>
+         <Lightning:button class="slds-button slds-button--neutral" label="Next&gt;" aura:id="nextButton" onclick="{!c.navigateToNext}"/>
+         <lightning:button class="slds-button slds-button--neutral" label="Last&gt;&gt;" aura:id="lastButton" onclick="{!c.navigateToLast}"/>
+         <ui:inputSelect label = "Show" aura:id="show" 
+                            value="{!v.recordsToShow}" class="slds-select"
+                            labelClass="slds-form-element__label"
+                            change="{!c.changeRecordsToShow}">
+             <ui:inputSelectOption text="5" value="true"/>
+             <ui:inputSelectOption text="10"/>
+             <ui:inputSelectOption text="25"/>
+             <ui:inputSelectOption text="50"/>
+             
+         </ui:inputSelect>
+    </div>
+
+    </div>
+</aura:component>

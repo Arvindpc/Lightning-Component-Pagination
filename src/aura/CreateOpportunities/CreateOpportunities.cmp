@@ -1,0 +1,90 @@
+<aura:component controller="CreateOpportunitiesController" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.closeDate}" action="{!c.checkValidDate}"/>
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    <aura:attribute name="opportunityAmount" type="Double"/>
+    <aura:attribute name="selectedStage" type="String"/>
+    <aura:attribute name="closeDate" type="Date"/>
+    <aura:attribute name="accountList" type="Account[]"/>
+    <aura:attribute name="tempAccountList" type="Account[]"/>
+    <aura:attribute name="startIndex" type="Integer" default="0"/>
+    <aura:attribute name="endIndex" type="Integer"/>
+    <aura:attribute name="selectedAccount" type="Map" default="{}"/>
+    <aura:attribute name="spinner" type="boolean" default="FALSE"/>
+    <aura:if isTrue="{!v.spinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading...</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+    <div class="slds-box slds-theme_default">
+        <p>Create Opportunities</p>
+        <div style="width:100%;position:relative;height:100px">
+            <div class='oppAmountDiv' style="position: relative;top:20px;width:20%;float:left;height:80px">
+                <ui:inputText aura:id="oppAmountInput" label="Amount"
+                              class="slds-input inputClass"
+                              labelClass="slds-form-element__label"
+                              onError="{!c.handleError}" 
+                              onClearErrors="{!c.handleClearError}" keyup="{!c.checkValidInput}" 
+                              updateOn="keyup"
+                              value="{!v.opportunityAmount}"
+                              required="true"/>
+            </div>
+            <div class="selectDiv" style="position: relative;right:350 px;top:22px;width:20%;float:right;overflow: hidden">    
+                <ui:inputSelect required="true" label = "Stage" aura:id="stagename" 
+                                value="{!v.selectedStage}" class="slds-select"
+                                labelClass="slds-form-element__label"
+                                onError="{!c.handleError}" 
+                                onClearErrors="{!c.handleClearError}"
+                                change="{!c.checkValidSelect}"/>
+            </div>
+        </div>
+        <div class="dateclass slds-m-top--xx-large slds-m-bottom--xx-large">
+            <ui:inputDate required="true" aura:id="closeDate" label="Close Date" 
+                          labelClass="slds-form-element__label" 
+                          onError="{!c.handleError}" 
+                          onClearErrors="{!c.handleClearError}"
+                          value="{!v.closeDate}" displayDatePicker="true" 
+                          />      
+        </div>
+        <div class="tableClass">
+            <p style="padding-bottom: 10px;">Select Accounts</p>
+            <table class="slds-table slds-table--bordered .slds-table_col-bordered slds-table_striped slds-border_left slds-border_right">
+                <thead>
+                    <tr bgcolor="#FF0000">
+                        <th scope="col"><span class="slds-truncate">Selected</span></th>
+                        <th scope="col"><span class="slds-truncate">Account Name</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.tempAccountList}" var="acc" indexVar="i">
+                        <tr>
+                            <td>
+                                <div class="slds-checkbox">
+                                    <input type="checkbox" name="{!acc.Name}" id="{!acc.Id}" checked="{!acc.isSelected}" onchange="{!c.getSelectedAccount}"/>                            
+                                    <label class="slds-checkbox__label" for="{!acc.Id}">
+                                        <span class="slds-checkbox_faux"></span>                                
+                                    </label>
+                                </div>                    
+                            </td>
+                            <td>{!acc.Name}<span class="slds-assistive-text">{!acc.Name}</span></td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+        <div class="slds-m-around--x-small">
+            <lightning:button class="slds-button slds-button--neutral" label="&lt;&lt;First" aura:id="firstButton" onclick="{!c.navigateToFirst}"/>
+         <lightning:button class="slds-button slds-button--small slds-button--neutral" label="&lt;Previous" aura:id="prevButton" onclick="{!c.navigateToPrevious}"/>
+         <Lightning:button class="slds-button slds-button--neutral" label="Next&gt;" aura:id="nextButton" onclick="{!c.navigateToNext}"/>
+         <lightning:button class="slds-button slds-button--neutral" label="Last&gt;&gt;" aura:id="lastButton" onclick="{!c.navigateToLast}"/>
+        </div>
+        <div>
+            <lightning:button class="slds-button slds-button_brand" aura:id="submitButton" onclick="{!c.createOpportunity}">Create Opportunity</lightning:button>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,53 @@
+<aura:component controller="BitcoinToUSDConvertor" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="currencyCodeNameMap" type="Map"/>
+    <aura:attribute name="currencyCodeRateMap" type="Map"/>
+    <aura:attribute name="selectedCurrency" type = "String"/>
+    <aura:attribute name="bitCoinInput" type="double"/>
+    <aura:attribute name="otherCurrInput" type="double"/>
+    <aura:attribute name="convertionFieldLabel" type = "String" default="US Dollar Amount"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="aura:waiting" action="{!c.showSpinner}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.hideSpinner}"/>
+    <aura:attribute name="spinner" type="boolean" default="FALSE"/>
+    <aura:if isTrue="{!v.spinner}">
+        <div aura:id="spinnerId" class="slds-spinner_container">
+            <div class="slds-spinner--brand  slds-spinner slds-spinner--large slds-is-relative" role="alert">
+                <span class="slds-assistive-text">Loading...</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </aura:if>
+    <lightning:card class="slds-text-heading_small slds-card_boundary " title="Bitcoin Converter">
+		<div style="position: relative;right: 30px;float:right;top:-50px">
+            <div style="position: relative;right:90px;top:20px" class="slds-text-body_regular">Currency</div>
+        	<div style="position: relative;right:10px;top:-20px">
+                <lightning:select aura:id="currencyPicklist" variant="label-hidden" value="{!v.selectedCurrency}" onchange="{!c.handleCurrencyOnChange}" name="currencyPicklist">
+            	<aura:iteration items="{!v.currencyCodeNameMap}" var="ind" indexVar="key">
+                	<option style="width:100px" text="{!ind.value}" value="{!ind.key}" selected="{!ind.key=='USD'}"/>
+                </aura:iteration>
+        	</lightning:select>
+            </div>
+        </div>
+ 
+        <div style="position: relative;left:40px;top:46px;width:40%;float:left;height:80px">
+            <ui:inputText aura:id="bitcoinInput" label="Bitcoin Amount"
+                  class="slds-input inputClass"
+                  labelClass="slds-form-element__label"
+                  onError="{!c.handleError}" 
+                  onClearErrors="{!c.handleClearError}"
+                  value="{!v.bitCoinInput}" keyup="{!c.bitcoinToOtherCurrency}" updateOn="keyup"
+                  required="false"/>
+        </div>
+        <div style="position: relative;right:50px;top:-20px;width:40%;float:right">
+        <ui:inputText aura:id="otherCurrencyInput" label="{!v.convertionFieldLabel}"
+                  class="slds-input inputClass"
+                  labelClass="slds-form-element__label"
+                  onError="{!c.handleError}" 
+                  onClearErrors="{!c.handleClearError}"
+                  value="{!v.otherCurrInput}" keyup="{!c.otherCurrencyToBitcoin}" updateOn="keyup"
+                  required="false"/>
+        </div>
+        
+	</lightning:card>
+</aura:component>

@@ -1,0 +1,13 @@
+.THIS .uiInputSelect {
+    float:right
+}
+.THIS .slds-select{
+    width:40px
+}
+.THIS .dataTableClass .slds-table tbody{
+    display:none
+}
+.THIS .noContactClass{
+    display:none;
+  
+}

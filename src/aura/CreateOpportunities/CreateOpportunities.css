@@ -1,0 +1,31 @@
+.THIS .uiInputDate .datePicker-openIcon {
+    position: absolute;
+    left: 90%;
+    top: 35%;
+}
+.THIS input.error, .THIS select.error{
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(194, 57, 52);
+    box-shadow: rgb(194, 57, 52) 0 0 0 1px inset;
+    background-clip: padding-box;
+}
+
+.THIS .closeDateclass{
+    position: absolute;
+    left: 0%;
+}
+.THIS .oppAmountDiv, .THIS .dateclass{
+    width:20%
+}
+.THIS .selectDiv{
+    position: absolute;
+    right: 50%;
+    top: 9%;
+}
+.THIS .tableClass{
+    width:30%
+}
+.THIS.slds-spinner_container {  
+  z-index: 10000;
+  position: fixed;   
+}

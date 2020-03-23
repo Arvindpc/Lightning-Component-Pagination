@@ -26,23 +26,32 @@ The value we’re looking for is: 9331.22.
 ## TASK 2
 We would like to build a Lightning component where a user can use our bitcoin converter. The user can convert Bitcoin to a selected currency or from that selected currency to Bitcoin.
 The component would look like this:
+![image](https://user-images.githubusercontent.com/20809248/77335283-d9932600-6d1d-11ea-86e7-39de20f3ebce.png)
 
+We would then let the user see a dropdown with all the available currencies, the default currency would be USD. The dropdown values would be the names of the currencies rather than the currency code.
+The currency options would be all the currencies the API call returned. (No need to show the option of converting bitcoin to bitcoin of course)
+Then, the component would have 2 input fields, one for “US Dollar Amount” and one for “Bitcoin Amount”. When the amount is changed by a user in one of the fields, our component will automatically calculate the value in the other field and will update the other field.
+The label of the “US Dollar Amount” input field needs to change as the user selects a different currency. The user should only enter numbers and shouldn’t be able to enter and characters into the input fields.
 
-## Approach
-•	When the component loads, fetch the available currency values into the currency picklist except the bitcoin currency itself. Default currency will be USD.
-•	Two input fields, one for bitcoin currency and the other for converted currency value.
-•	The name of the converted currency field dynamically changes when the currency is changed in picklist.
-•	When the user enters input in bitcoin field, the input will be converted depending on the selected currency rate and displayed in the converted currency field.
-•	Similarly, the input in the converted currency field will be converted into bitcoin value.
-•	Both the fields are validated for non-numeric entries.
+### Approach
+- When the component loads, fetch the available currency values into the currency picklist except the bitcoin currency itself. Default currency will be USD.
+- Two input fields, one for bitcoin currency and the other for converted currency value.
+- The name of the converted currency field dynamically changes when the currency is changed in picklist.
+- When the user enters input in bitcoin field, the input will be converted depending on the selected currency rate and displayed in the converted currency field.
+- Similarly, the input in the converted currency field will be converted into bitcoin value.
+- Both the fields are validated for non-numeric entries.
 
-## Metadata created:
-•	APEX Classes
-    o	BitcoinToUSDConvertor
-•	Lightning Component
-o	BitcoinToUSDConvertor
+### Metadata created:
+- APEX Classes
+  - BitcoinToUSDConvertor
+- Lightning Component
+  - BitcoinToUSDConvertor
 
-# TASK 3
+## TASK 3
+We would like to build a Lightning component that allows the user to create many opportunities for the existing accounts.
+The component would show all the existing accounts and allow the user to select for which accounts to create an opportunity.
+The account table would use pagination as there may be a lot of accounts in the system.
+The page would look like this:
 
 ## Approach
 •	A lightning component is created with all the necessary elements to take input values to create an opportunity.
